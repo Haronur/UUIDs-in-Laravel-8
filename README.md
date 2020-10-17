@@ -115,5 +115,30 @@ php artisan db:seed
 php artisan migrate:refresh
 php artisan db:seed
 ```
-
 - And Check your Database table in my case at `phpMyAdmin named` named  `uuids-in-laravel-8`
+
+## -- Referencing UUIDs as foreign keys --
+- To reference a UUID on a table as a foreign key, you simply change the type of the foreign key field on your table. For example, this...
+``` 
+   Schema::create('products', function (Blueprint $table) {
+        $table->id();
+        $table->unsignedBigInteger('category_id')->nullable();
+        $table->foreign('category_id')->references('id')->on('categories');
+        $table->string('name');
+        $table->text('description');
+        $table->integer('price');
+        $table->timestamps();
+    });
+```
+- ... where we created a unsignedBigInteger to reference the category_id foreign key, changes to this:
+```
+  Schema::create('products', function (Blueprint $table) {
+        $table->id();
+        $table->uuid('category_id')->nullable();
+        $table->foreign('category_id')->references('id')->on('categories');
+        $table->string('name');
+        $table->text('description');
+        $table->integer('price');
+        $table->timestamps();
+    });
+```
