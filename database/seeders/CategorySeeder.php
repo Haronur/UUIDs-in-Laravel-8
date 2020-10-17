@@ -13,6 +13,7 @@ class CategorySeeder extends Seeder
      */
     public function run()
     {
-        //
+        // factory(\App\Models\Category::class, 5)->create(); // < Laravel Verssion 8
+        \App\Models\Category::factory()->count(5)->create();
     }
 }
