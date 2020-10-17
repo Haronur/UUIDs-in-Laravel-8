@@ -101,3 +101,19 @@ php artisan migrate:refresh
 php artisan db:seed
 ```
 - And Check your Database table in my case at `phpMyAdmin named` named  `uuids-in-laravel-8`
+
+## Gererate Some Files and back to numbered IDs from (UUIDs)
+- Run those below command:
+
+```php artisan make:migration create_products_table --create=products
+   php artisan make:model Product
+   php artisan make:factory ProductFactory --model=Product
+   php artisan make:seeder ProductSeeder
+```
+#### Finally run those below command:
+```
+php artisan migrate:refresh
+php artisan db:seed
+```
+
+- And Check your Database table in my case at `phpMyAdmin named` named  `uuids-in-laravel-8`
