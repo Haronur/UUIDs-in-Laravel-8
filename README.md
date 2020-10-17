@@ -59,5 +59,45 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-## Generate dummy data in Laravel 8 using Model Factory 
+## -- Generate dummy data in Laravel 8 using Model Factory -- 
 Run `php artisan migrate --seed` (it has some seeded data for your testing)
+
+## -- Implementing UUIDs as primary keys --
+
+#### Step 1 Let's make that a Trait 
+To create a new Trait, create a `\App\Http\Traits\` folder (only my preference, you can put it somewhere else too), and also a new file for the Trait. We will call the file `UsesUuid.php`.
+- Here is the code for the trait:
+```
+<?php
+
+namespace App\Http\Traits;
+
+use Illuminate\Support\Str;
+
+trait UsesUuid
+{
+  protected static function bootUsesUuid() {
+    static::creating(function ($model) {
+      if (! $model->getKey()) {
+        $model->{$model->getKeyName()} = (string) Str::uuid();
+      }
+    });
+  }
+
+  public function getIncrementing()
+  {
+      return false;
+  }
+
+  public function getKeyType()
+  {
+      return 'string';
+  }
+}
+```
+#### Finally run those below command:
+```
+php artisan migrate:refresh
+php artisan db:seed
+```
+- And Check your Database table in my case at `phpMyAdmin named` named  `uuids-in-laravel-8`
